@@ -26,67 +26,70 @@
         (input)="onSearch(searchTerm)"
         placeholder="Type to search..."
         class="search-input"
-      />
-    </div>
-
-    <div class="current-search">
-      <strong>Current input:</strong> {{ searchTerm }}
-    </div>
-
-    <div class="event-flow">
-      <div class="event-header">
-        <h4>Event Flow</h4>
-        <button class="clear-button" (click)="clearEvents()">
-          Clear Events
-        </button>
+        />
       </div>
 
-      <div class="event-list-wrapper">
-        <div class="event-visualization">
-          <div class="viz-column">
-            <div class="viz-label">Raw Input</div>
-            <div class="viz-arrow">↓</div>
-          </div>
-          <div class="viz-column">
-            <div class="viz-label">debounceTime(400ms)</div>
-            <div class="viz-arrow">↓</div>
-          </div>
-          <div class="viz-column">
-            <div class="viz-label">distinctUntilChanged()</div>
-            <div class="viz-arrow">↓</div>
-          </div>
+      <div class="current-search">
+        <strong>Current input:</strong> {{ searchTerm }}
+      </div>
+
+      <div class="event-flow">
+        <div class="event-header">
+          <h4>Event Flow</h4>
+          <button class="clear-button" (click)="clearEvents()">
+            Clear Events
+          </button>
         </div>
 
-        <div class="event-list">
-          <div
-            *ngFor="let event of searchEvents"
-            class="event-item"
-            [ngClass]="getEventClass(event.type)"
-          >
-            <div class="event-time">
-              {{ getFormattedTime(event.timestamp) }}
+        <div class="event-list-wrapper">
+          <div class="event-visualization">
+            <div class="viz-column">
+              <div class="viz-label">Raw Input</div>
+              <div class="viz-arrow">↓</div>
             </div>
-            <div class="event-type">{{ event.type }}</div>
-            <div class="event-term">"{{ event.term }}"</div>
+            <div class="viz-column">
+              <div class="viz-label">debounceTime(400ms)</div>
+              <div class="viz-arrow">↓</div>
+            </div>
+            <div class="viz-column">
+              <div class="viz-label">distinctUntilChanged()</div>
+              <div class="viz-arrow">↓</div>
+            </div>
           </div>
 
-          <div *ngIf="searchEvents.length === 0" class="no-events">
-            No events yet. Start typing in the search box.
+          <div class="event-list">
+            @for (event of searchEvents; track event) {
+              <div
+                class="event-item"
+                [ngClass]="getEventClass(event.type)"
+                >
+                <div class="event-time">
+                  {{ getFormattedTime(event.timestamp) }}
+                </div>
+                <div class="event-type">{{ event.type }}</div>
+                <div class="event-term">"{{ event.term }}"</div>
+              </div>
+            }
+
+            @if (searchEvents.length === 0) {
+              <div class="no-events">
+                No events yet. Start typing in the search box.
+              </div>
+            }
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="code-explanation">
-    <h4>Key Code Snippet:</h4>
-<pre class="code-block">
-searchTerms.pipe(
-  debounceTime(400),      // Wait for 400ms of inactivity
-  distinctUntilChanged()  // Only emit when value changes
-).subscribe(term =&gt; {{ '{' }}
-  // Process search with optimized input
-{{ '}' }});
-</pre>
+    <div class="code-explanation">
+      <h4>Key Code Snippet:</h4>
+      <pre class="code-block">
+        searchTerms.pipe(
+        debounceTime(400),      // Wait for 400ms of inactivity
+        distinctUntilChanged()  // Only emit when value changes
+        ).subscribe(term =&gt; {{ '{' }}
+        // Process search with optimized input
+        {{ '}' }});
+      </pre>
+    </div>
   </div>
-</div>

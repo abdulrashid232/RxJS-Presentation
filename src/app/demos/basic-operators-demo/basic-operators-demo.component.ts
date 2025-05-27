@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { of } from 'rxjs';
 import { map, filter, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-basic-operators-demo',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './basic-operators-demo.component.html',
   styleUrl: './basic-operators-demo.component.css',
 })

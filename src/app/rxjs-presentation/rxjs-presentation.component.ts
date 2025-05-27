@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { BasicOperatorsDemoComponent } from '../demos/basic-operators-demo/basic-operators-demo.component';
 import { SearchInputDemoComponent } from '../demos/search-input-demo/search-input-demo.component';
 import { SwitchmapSearchDemoComponent } from '../demos/switchmap-search-demo/switchmap-search-demo.component';
@@ -18,12 +18,11 @@ interface Slide {
 @Component({
   selector: 'app-rxjs-presentation',
   imports: [
-    CommonModule, 
     BasicOperatorsDemoComponent,
     SearchInputDemoComponent,
     SwitchmapSearchDemoComponent,
     SubscriptionManagementDemoComponent
-  ],
+],
   templateUrl: './rxjs-presentation.component.html',
   styleUrl: './rxjs-presentation.component.css',
 })

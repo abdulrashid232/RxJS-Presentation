@@ -6,24 +6,44 @@
 
   <div class="slide-container">
     <div class="slide">
-      <div class="slide-phase" *ngIf="currentSlide.phase">{{ currentSlide.phase }}</div>
-      <div class="slide-goal" *ngIf="currentSlide.goal">Goal: {{ currentSlide.goal }}</div>
-      
+      @if (currentSlide.phase) {
+        <div class="slide-phase">{{ currentSlide.phase }}</div>
+      }
+      @if (currentSlide.goal) {
+        <div class="slide-goal">Goal: {{ currentSlide.goal }}</div>
+      }
+
       <h2 class="slide-title">{{ currentSlide.title }}</h2>
-      
+
       <div class="slide-content">
-        <ul *ngIf="currentSlide.content">
-          <li *ngFor="let point of currentSlide.content">{{ point }}</li>
-        </ul>
-        
-        <pre *ngIf="currentSlide.code && (!currentSlide.demoComponent || currentSlide.showCodeExample)" class="code-block"><code>{{ currentSlide.code }}</code></pre>
-        
-        <div class="demo-container" *ngIf="currentSlide.demoComponent">
-          <app-basic-operators-demo *ngIf="currentSlide.demoComponent === 'basic-operators-demo'"></app-basic-operators-demo>
-          <app-search-input-demo *ngIf="currentSlide.demoComponent === 'search-input-demo'"></app-search-input-demo>
-          <app-switchmap-search-demo *ngIf="currentSlide.demoComponent === 'switchmap-search-demo'"></app-switchmap-search-demo>
-          <app-subscription-management-demo *ngIf="currentSlide.demoComponent === 'subscription-management-demo'"></app-subscription-management-demo>
-        </div>
+        @if (currentSlide.content) {
+          <ul>
+            @for (point of currentSlide.content; track point) {
+              <li>{{ point }}</li>
+            }
+          </ul>
+        }
+
+        @if (currentSlide.code && (!currentSlide.demoComponent || currentSlide.showCodeExample)) {
+          <pre class="code-block"><code>{{ currentSlide.code }}</code></pre>
+        }
+
+        @if (currentSlide.demoComponent) {
+          <div class="demo-container">
+            @if (currentSlide.demoComponent === 'basic-operators-demo') {
+              <app-basic-operators-demo></app-basic-operators-demo>
+            }
+            @if (currentSlide.demoComponent === 'search-input-demo') {
+              <app-search-input-demo></app-search-input-demo>
+            }
+            @if (currentSlide.demoComponent === 'switchmap-search-demo') {
+              <app-switchmap-search-demo></app-switchmap-search-demo>
+            }
+            @if (currentSlide.demoComponent === 'subscription-management-demo') {
+              <app-subscription-management-demo></app-subscription-management-demo>
+            }
+          </div>
+        }
       </div>
     </div>
   </div>
@@ -34,11 +54,13 @@
         Previous
       </button>
       <div class="slide-indicators">
-        <span *ngFor="let slide of slides; let i = index" 
-              class="slide-indicator" 
-              [class.active]="i === currentSlideIndex"
-              (click)="goToSlide(i)">
-        </span>
+        @for (slide of slides; track slide; let i = $index) {
+          <span
+            class="slide-indicator"
+            [class.active]="i === currentSlideIndex"
+            (click)="goToSlide(i)">
+          </span>
+        }
       </div>
       <button (click)="nextSlide()" [disabled]="currentSlideIndex === slides.length - 1" class="nav-button next-button">
         Next
