@@ -27,13 +27,81 @@ interface Slide {
   styleUrl: './rxjs-presentation.component.css',
 })
 export class RxjsPresentationComponent {
-  currentSlideIndex = 0;
-
-  slides: Slide[] = [
+  currentSlideIndex = 0;  slides: Slide[] = [
     {
-      title: 'RxJS: Simplifying Complex Asynchronous Operations',
-      phase: 'Phase 1: The Absolute Essentials',
-      goal: 'Setting the context and motivating why RxJS matters',
+      title: 'Introduction to RxJS',
+      phase: 'Getting Started',
+      goal: 'Understanding the fundamentals of reactive programming with RxJS',
+      content: [
+        'RxJS is a library for composing asynchronous and event-based programs by using observable sequences.',
+        'It provides one core type, the Observable, satellite types (Observer, Schedulers, Subjects) and operators inspired by Array methods.',
+        'Think of RxJS as Lodash for events.',
+        'ReactiveX combines the Observer pattern with the Iterator pattern and functional programming with collections.',
+      ],
+      code: `// Traditional event handling
+document.addEventListener('click', () => console.log('Clicked!'));
+
+// RxJS approach
+import { fromEvent } from 'rxjs';
+fromEvent(document, 'click').subscribe(() => console.log('Clicked!'));`,
+    },
+    {
+      title: 'Essential Concepts in RxJS',
+      phase: 'Core Foundations',
+      goal: 'Learn the building blocks that make RxJS powerful',
+      content: [
+        'Observable: represents the idea of an invokable collection of future values or events.',
+        'Observer: is a collection of callbacks that knows how to listen to values delivered by the Observable.',
+        'Subscription: represents the execution of an Observable, useful for cancelling the execution.',
+        'Operators: are pure functions for functional programming with operations like map, filter, concat, reduce, etc.',
+        'Subject: equivalent to an EventEmitter, for multicasting values to multiple Observers.',
+        'Schedulers: centralized dispatchers to control concurrency and timing of computation.',
+      ],
+    },    {
+      title: 'Purity and Flow Control',
+      phase: 'Core Advantages',
+      goal: 'Understand how RxJS helps manage state and control event flow',
+      content: [
+        'RxJS produces values using pure functions, making code less prone to errors.',
+        'Isolate state changes inside streams rather than using shared variables.',
+        'Control event flow with operators like throttleTime, debounceTime, filter, etc.',
+        'Transform values as they pass through your observable chains.',
+      ],
+      code: `// Traditional approach with shared state
+let count = 0;
+document.addEventListener('click', () => console.log(\`Clicked \${++count} times\`));
+
+// RxJS approach with isolated state
+import { fromEvent, scan } from 'rxjs';
+fromEvent(document, 'click')
+  .pipe(scan((count) => count + 1, 0))
+  .subscribe((count) => console.log(\`Clicked \${count} times\`));`,
+    },
+    {
+      title: 'Practical RxJS Examples',
+      phase: 'Applied Concepts',
+      goal: 'See how RxJS handles real-world scenarios elegantly',
+      content: [
+        'Rate limiting with throttleTime (maximum one event per specified time)',
+        'Value transformation with map and accumulation with scan',
+        'Combine multiple operators to create powerful data flows',
+        'Other useful operators: filter, delay, debounceTime, take, takeUntil, distinct, distinctUntilChanged',
+      ],
+      code: `// Rate limiting clicks and accumulating x-position values
+import { fromEvent, throttleTime, map, scan } from 'rxjs';
+
+fromEvent(document, 'click')
+  .pipe(
+    throttleTime(1000),             // At most one click per second
+    map((event) => event.clientX),  // Extract the x-position
+    scan((total, x) => total + x, 0) // Add to running total
+  )
+  .subscribe((total) => console.log(\`Total X position: \${total}\`));`,
+    },
+    {
+      title: 'RxJS: Simplifying Complex Asynchronous Operations in Angular',
+      phase: 'Phase 1: The Absolute Essentials for Angular',
+      goal: 'Setting the context and motivating why RxJS matters in Angular',
       content: [
         'RxJS is everywhere in Angular (HTTP, forms, router)',
         'It helps us manage streams of data over time',
