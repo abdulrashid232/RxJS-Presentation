@@ -1,0 +1,141 @@
+<div class="demo-container">
+  <h3>Higher-Order Mapping with switchMap</h3>
+
+  <div class="demo-description">
+    <p>
+      This demo demonstrates the power of <strong>switchMap</strong> for
+      handling HTTP requests:
+    </p>
+    <ul>
+      <li>
+        Type quickly to see how switchMap <strong>cancels</strong> previous
+        in-flight requests
+      </li>
+      <li>
+        Only the results from the <strong>most recent</strong> request will be
+        displayed
+      </li>
+      <li>Perfect for search inputs to avoid race conditions and stale data</li>
+    </ul>
+  </div>
+
+  <div class="search-container">
+    <div class="search-input-wrapper">
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        (input)="onSearch(searchTerm)"
+        placeholder="Search RxJS operators..."
+        class="search-input"
+      />
+      <div class="loader" *ngIf="loading"></div>
+    </div>
+
+    <div class="results-container">
+      <h4>Search Results</h4>
+
+      <div class="results-list">
+        <div *ngFor="let result of results" class="result-item">
+          <div class="result-name">{{ result.name }}</div>
+          <div class="result-description">{{ result.description }}</div>
+        </div>
+
+        <div *ngIf="results.length === 0 && !loading" class="no-results">
+          No results found. Try searching for terms like "map", "filter", or
+          "subject".
+        </div>
+      </div>
+    </div>
+
+    <div class="api-visualization">
+      <div class="api-header">
+        <h4>HTTP Call Visualization</h4>
+        <div class="stats">
+          <div class="stat-item">
+            Total API Calls: <span class="stat-value">{{ apiCallCount }}</span>
+          </div>
+          <button class="clear-button" (click)="clearEvents()">Clear</button>
+        </div>
+      </div>
+
+      <div class="event-list-wrapper">
+        <div class="event-list">
+          <div
+            *ngFor="let event of searchEvents"
+            class="event-item"
+            [ngClass]="getEventClass(event.status)"
+          >
+            <div class="event-time">
+              {{ getFormattedTime(event.timestamp) }}
+            </div>
+            <div class="event-term">"{{ event.term }}"</div>
+            <div class="event-status">{{ event.status }}</div>
+          </div>
+
+          <div *ngIf="searchEvents.length === 0" class="no-events">
+            No API calls yet. Start typing in the search box.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="code-explanation">
+    <h4>The Magic of switchMap:</h4>
+<pre class="code-block">
+searchTerms.pipe(
+  debounceTime(400),
+  distinctUntilChanged(),
+  switchMap(term =&gt; {{ '{' }}
+    // Previous HTTP requests are cancelled when new term is entered
+    return this.searchService.search(term);
+  {{ '}' }})
+).subscribe(results =&gt; {{ '{' }}
+  // Only receives results from the most recent HTTP request
+  this.results = results;
+{{ '}' }});
+</pre>
+
+    <div class="operator-comparison">
+      <h4>Higher-Order Mapping Operators Comparison:</h4>
+      <div class="operator-grid">
+        <div class="operator-card">
+          <div class="operator-name">switchMap</div>
+          <div class="operator-desc">
+            Cancels previous inner Observables, switches to new one
+          </div>
+          <div class="operator-use">
+            Use for: Search inputs, router navigation
+          </div>
+        </div>
+        <div class="operator-card">
+          <div class="operator-name">mergeMap</div>
+          <div class="operator-desc">
+            Runs all inner Observables concurrently
+          </div>
+          <div class="operator-use">
+            Use for: Independent parallel operations
+          </div>
+        </div>
+        <div class="operator-card">
+          <div class="operator-name">concatMap</div>
+          <div class="operator-desc">
+            Runs inner Observables in sequence, one after another
+          </div>
+          <div class="operator-use">
+            Use for: Operations that must happen in order
+          </div>
+        </div>
+        <div class="operator-card">
+          <div class="operator-name">exhaustMap</div>
+          <div class="operator-desc">
+            Ignores new emissions until current inner Observable completes
+          </div>
+          <div class="operator-use">
+            Use for: Submit buttons (prevent double clicks)
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

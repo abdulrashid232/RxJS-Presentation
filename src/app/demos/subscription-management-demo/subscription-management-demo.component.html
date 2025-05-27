@@ -1,0 +1,164 @@
+<div class="demo-container">
+  <h3>Subscription Management</h3>
+
+  <div class="demo-description">
+    <p>
+      Properly managing subscriptions is crucial to prevent memory leaks in
+      Angular applications.
+    </p>
+    <p>This demo shows 4 different approaches to subscription management:</p>
+  </div>
+
+  <div class="subscription-methods">
+    <div class="subscription-method">
+      <div class="method-header">
+        <h4>1. Manual Unsubscribe</h4>
+        <div class="counter">{{ manualCounter }}</div>
+      </div>
+      <div class="method-content">
+        <div class="code-block">
+          <pre>
+// Store subscription reference
+private subscription: Subscription;
+
+ngOnInit() {{ "{" }}
+  this.subscription = interval(1000)
+    .subscribe(val => this.counter = val);
+    {{ "}" }}
+
+ngOnDestroy() {{ "{" }}
+  // Manually unsubscribe
+  if (this.subscription){{ "{" }}
+    this.subscription.unsubscribe();
+    {{ "}" }}
+    {{ "}" }}</pre
+          >
+        </div>
+        <div class="method-notes">
+          <p>Pros: Explicit control</p>
+          <p>Cons: Verbose, easy to forget</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="subscription-method">
+      <div class="method-header">
+        <h4>2. takeUntil Pattern</h4>
+        <div class="counter">{{ takeUntilCounter }}</div>
+      </div>
+      <div class="method-content">
+        <div class="code-block">
+          <pre>
+// Create a subject to signal completion
+private destroy$ = new Subject&lt;void&gt;();
+
+ngOnInit() {{ "{" }}
+  interval(1000).pipe(
+    takeUntil(this.destroy$)
+  ).subscribe(val => this.counter = val);
+  {{ "}" }}
+
+ngOnDestroy() {{ "{" }}
+  // Emit value to trigger unsubscription
+  this.destroy$.next();
+  this.destroy$.complete();
+  {{ "}" }}</pre
+          >
+        </div>
+        <div class="method-notes">
+          <p>Pros: Consistent pattern</p>
+          <p>Cons: Subject boilerplate</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="subscription-method">
+      <div class="method-header">
+        <h4>3. takeUntilDestroyed (Angular 16+)</h4>
+        <div class="counter">{{ takeUntilDestroyedCounter }}</div>
+      </div>
+      <div class="method-content">
+        <div class="code-block">
+          <pre>
+import {{ "{" }} takeUntilDestroyed {{
+              "}"
+            }} from '&#64;angular/core/rxjs-interop';
+
+// Inject DestroyRef
+private destroyRef = inject(DestroyRef);
+
+ngOnInit() {{ "{" }}
+  interval(1000).pipe(
+    takeUntilDestroyed(this.destroyRef)
+  ).subscribe(val => this.counter = val);
+  {{ "}" }}
+
+// No cleanup code needed!</pre
+          >
+        </div>
+        <div class="method-notes">
+          <p>Pros: Clean, automatic</p>
+          <p>Cons: Angular 16+ only</p>
+          <p class="highlight">Recommended for Angular 16+</p>
+        </div>
+      </div>
+    </div>
+    <div class="subscription-method">
+      <div class="method-header">
+        <h4>4. Async Pipe</h4>
+        <div class="counter">{{ asyncCounter$ | async }}</div>
+      </div>
+      <div class="method-content">
+        <div class="code-block">
+          <pre>
+// Component
+asyncCounter$: Observable&lt;number&gt; = interval(1000);
+
+// Template
+{{ '{{ asyncCounter$ | async }}' }}</pre
+          >
+        </div>
+        <div class="method-notes">
+          <p>Pros: Simplest, automatic cleanup</p>
+          <p>Cons: Template-only solution</p>
+          <p class="highlight">Best for template bindings</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-controls">
+    <button class="demo-button" (click)="restartCounters()">
+      Restart Counters
+    </button>
+  </div>
+
+  <div class="rxjs-signals">
+    <h4>RxJS & Angular Signals</h4>
+    <div class="signal-content">
+      <p>Modern Angular applications can use both RxJS and Signals:</p>
+      <ul>
+        <li>
+          <strong>RxJS:</strong> For complex async operations and external data
+          sources
+        </li>
+        <li><strong>Signals:</strong> For reactive local UI state</li>
+      </ul>
+      <div class="counter-display">
+        <strong>Signal Counter:</strong> {{ counter() }}
+      </div>
+      <div class="code-block">
+        <pre>
+// Convert RxJS Observable to Signal
+import {{ "{" }}toSignal {{ "}" }} from '&#64;angular/core/rxjs-interop';
+
+// In component
+const counter = toSignal(counter$,{{ "{" }} initialValue: 0 {{ "}" }});
+
+// In template
+{{ '{{ counter() }}' }}</pre
+        >
+      </div>
+    </div>
+  </div>
+</div>

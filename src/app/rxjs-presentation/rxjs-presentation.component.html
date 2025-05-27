@@ -1,0 +1,55 @@
+<div class="presentation-container">
+  <header class="presentation-header">
+    <h1>Understanding RxJS</h1>
+    <p class="subtitle">A Comprehensive Guide to Reactive Programming in JavaScript</p>
+  </header>
+
+  <div class="slide-container">
+    <div class="slide">
+      <!-- Phase and goal information if available -->
+      <div class="slide-phase" *ngIf="currentSlide.phase">{{ currentSlide.phase }}</div>
+      <div class="slide-goal" *ngIf="currentSlide.goal">Goal: {{ currentSlide.goal }}</div>
+      
+      <h2 class="slide-title">{{ currentSlide.title }}</h2>
+      
+      <div class="slide-content">
+        <!-- Content points -->
+        <ul *ngIf="currentSlide.content">
+          <li *ngFor="let point of currentSlide.content">{{ point }}</li>
+        </ul>
+        
+        <!-- Code example if available and showCodeExample is true -->
+        <pre *ngIf="currentSlide.code && (!currentSlide.demoComponent || currentSlide.showCodeExample)" class="code-block"><code>{{ currentSlide.code }}</code></pre>
+        
+        <!-- Demo components based on slide configuration -->
+        <div class="demo-container" *ngIf="currentSlide.demoComponent">
+          <app-basic-operators-demo *ngIf="currentSlide.demoComponent === 'basic-operators-demo'"></app-basic-operators-demo>
+          <app-search-input-demo *ngIf="currentSlide.demoComponent === 'search-input-demo'"></app-search-input-demo>
+          <app-switchmap-search-demo *ngIf="currentSlide.demoComponent === 'switchmap-search-demo'"></app-switchmap-search-demo>
+          <app-subscription-management-demo *ngIf="currentSlide.demoComponent === 'subscription-management-demo'"></app-subscription-management-demo>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-controls">
+    <div class="slide-nav">
+      <button (click)="previousSlide()" [disabled]="currentSlideIndex === 0" class="nav-button prev-button">
+        Previous
+      </button>
+      <div class="slide-indicators">
+        <span *ngFor="let slide of slides; let i = index" 
+              class="slide-indicator" 
+              [class.active]="i === currentSlideIndex"
+              (click)="goToSlide(i)">
+        </span>
+      </div>
+      <button (click)="nextSlide()" [disabled]="currentSlideIndex === slides.length - 1" class="nav-button next-button">
+        Next
+      </button>
+    </div>
+    <div class="slide-counter">
+      {{ currentSlideIndex + 1 }} / {{ slides.length }}
+    </div>
+  </div>
+</div>
