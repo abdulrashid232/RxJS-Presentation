@@ -11,63 +11,90 @@
         of(1, 2, 3).pipe(
         map(value => value * 2) // Emits 2, 4, 6
         ).subscribe(console.log);</pre
-        >
-      </div>
-      <div class="results">
-        <p>Results:</p>
-        <ul>
-          @for (result of mapResults; track result) {
-            <li>{{ result }}</li>
+      >
+    </div>
+    <div class="results">
+      <p>Results:</p>
+      <ul>
+        @for (result of mapResults; track result) {
+        <li>{{ result }}</li>
+        }
+      </ul>
+      <div class="logs">
+        <p>Logs:</p>
+        <ul class="log-list">
+          @for (log of mapLogs; track $index) {
+          <li class="log-item">{{ log }}</li>
           }
         </ul>
       </div>
     </div>
+  </div>
 
-    <div class="operator-section">
-      <h4>filter() operator</h4>
-      <p class="operator-description">Emits only values that meet a condition</p>
-      <div class="code-block">
-        <pre>
+  <div class="operator-section">
+    <h4>filter() operator</h4>
+    <p class="operator-description">Emits only values that meet a condition</p>
+    <div class="code-block">
+      <pre>
           of(1, 2, 3, 4, 5).pipe(
           filter(value => value % 2 === 0) // Emits 2, 4
           ).subscribe(console.log);</pre
-          >
-        </div>
-        <div class="results">
-          <p>Results:</p>
-          <ul>
-            @for (result of filterResults; track result) {
-              <li>{{ result }}</li>
-            }
-          </ul>
-        </div>
+      >
+    </div>
+    <div class="results">
+      <p>Results:</p>
+      <ul>
+        @for (result of filterResults; track result) {
+        <li>{{ result }}</li>
+        }
+      </ul>
+      <div class="logs">
+        <p>Logs:</p>
+        <ul class="log-list">
+          @for (log of filterLogs; track $index) {
+          <li class="log-item">{{ log }}</li>
+          }
+        </ul>
       </div>
+    </div>
+  </div>
 
-      <div class="operator-section">
-        <h4>Combined operators with tap()</h4>
-        <p class="operator-description">
-          Using tap() for side effects without changing the stream
-        </p>
-        <div class="code-block">
-          <pre>
+  <div class="operator-section">
+    <h4>Combined operators with tap()</h4>
+    <p class="operator-description">
+      Using tap() for side effects without changing the stream
+    </p>
+    <div class="code-block">
+      <pre>
             of(1, 2, 3, 4, 5).pipe(
             tap(val => console.log('Before:', val)),
             filter(val => val % 2 === 0),
             map(val => val * 10),
             tap(val => console.log('After:', val))
             ).subscribe(val => console.log('Result:', val));</pre
-            >
-          </div>
-          <div class="results">
-            <p>Results:</p>
-            <ul>
-              @for (result of combineResults; track result) {
-                <li>{{ result }}</li>
-              }
-            </ul>
-          </div>
-        </div>
-
-        <button class="demo-button" (click)="runDemoAgain()">Run Demo Again</button>
-        <p class="tip">Open the browser console to see all the logs!</p>
+      >
+    </div>
+    <div class="results">
+      <p>Results:</p>
+      <ul>
+        @for (result of combineResults; track result) {
+        <li>{{ result }}</li>
+        }
+      </ul>
+      <div class="logs">
+        <p>Logs:</p>
+        <ul class="log-list">
+          @for (log of combinedLogs; track $index) {
+          <li class="log-item">{{ log.stage }}: {{ log.value }}</li>
+          }
+        </ul>
       </div>
+    </div>
+  </div>
+
+  <button class="demo-button" (click)="runDemoAgain()">Run Demo Again</button>
+  <p class="tip">
+    Logs are now displayed in the UI. Console logs are still available for
+    reference.
+  </p>
+</div>

@@ -14,6 +14,11 @@ export class BasicOperatorsDemoComponent implements OnInit {
   filterResults: number[] = [];
   combineResults: number[] = [];
 
+  // Log messages for UI display
+  mapLogs: string[] = [];
+  filterLogs: string[] = [];
+  combinedLogs: { stage: string; value: number }[] = [];
+
   constructor() {}
 
   ngOnInit(): void {
@@ -27,6 +32,7 @@ export class BasicOperatorsDemoComponent implements OnInit {
       .pipe(map((value) => value * 2))
       .subscribe((result) => {
         this.mapResults.push(result);
+        this.mapLogs.push(`Map result: ${result}`);
         console.log('Map result:', result);
       });
   }
@@ -36,6 +42,7 @@ export class BasicOperatorsDemoComponent implements OnInit {
       .pipe(filter((value) => value % 2 === 0))
       .subscribe((result) => {
         this.filterResults.push(result);
+        this.filterLogs.push(`Filter result: ${result}`);
         console.log('Filter result:', result);
       });
   }
@@ -43,22 +50,37 @@ export class BasicOperatorsDemoComponent implements OnInit {
   demoCombinedOperators(): void {
     of(1, 2, 3, 4, 5)
       .pipe(
-        tap((val) => console.log('Before filter:', val)),
+        tap((val) => {
+          this.combinedLogs.push({ stage: 'Before filter', value: val });
+          console.log('Before filter:', val);
+        }),
         filter((val) => val % 2 === 0),
-        tap((val) => console.log('After filter, before map:', val)),
+        tap((val) => {
+          this.combinedLogs.push({
+            stage: 'After filter, before map',
+            value: val,
+          });
+          console.log('After filter, before map:', val);
+        }),
         map((val) => val * 10),
-        tap((val) => console.log('After map:', val))
+        tap((val) => {
+          this.combinedLogs.push({ stage: 'After map', value: val });
+          console.log('After map:', val);
+        })
       )
       .subscribe((result) => {
         this.combineResults.push(result);
+        this.combinedLogs.push({ stage: 'Final result', value: result });
         console.log('Final result:', result);
       });
   }
-
   runDemoAgain(): void {
     this.mapResults = [];
     this.filterResults = [];
     this.combineResults = [];
+    this.mapLogs = [];
+    this.filterLogs = [];
+    this.combinedLogs = [];
 
     this.demoMapOperator();
     this.demoFilterOperator();
