@@ -28,6 +28,9 @@
           }
         </ul>
       </div>
+      <button class="section-button" (click)="runMapDemo()">
+        Run Map Demo
+      </button>
     </div>
   </div>
 
@@ -56,6 +59,9 @@
           }
         </ul>
       </div>
+      <button class="section-button" (click)="runFilterDemo()">
+        Run Filter Demo
+      </button>
     </div>
   </div>
 
@@ -89,12 +95,16 @@
           }
         </ul>
       </div>
+      <button class="section-button" (click)="runCombinedDemo()">
+        Run Combined Demo
+      </button>
     </div>
   </div>
 
-  <button class="demo-button" (click)="runDemoAgain()">Run Demo Again</button>
+  <button class="demo-button" (click)="runDemoAgain()">Run All Demos</button>
   <p class="tip">
-    Logs are now displayed in the UI. Console logs are still available for
-    reference.
+    Click the individual buttons to run each demo separately, or the button
+    above to run all demos. Logs are displayed in the UI. Console logs are also
+    available for reference.
   </p>
 </div>

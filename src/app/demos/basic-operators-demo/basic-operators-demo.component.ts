@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { of } from 'rxjs';
 import { map, filter, tap } from 'rxjs/operators';
@@ -9,23 +9,17 @@ import { map, filter, tap } from 'rxjs/operators';
   templateUrl: './basic-operators-demo.component.html',
   styleUrl: './basic-operators-demo.component.css',
 })
-export class BasicOperatorsDemoComponent implements OnInit {
+export class BasicOperatorsDemoComponent {
   mapResults: number[] = [];
   filterResults: number[] = [];
   combineResults: number[] = [];
 
-  // Log messages for UI display
   mapLogs: string[] = [];
   filterLogs: string[] = [];
   combinedLogs: { stage: string; value: number }[] = [];
-
   constructor() {}
 
-  ngOnInit(): void {
-    this.demoMapOperator();
-    this.demoFilterOperator();
-    this.demoCombinedOperators();
-  }
+
 
   demoMapOperator(): void {
     of(1, 2, 3)
@@ -74,6 +68,25 @@ export class BasicOperatorsDemoComponent implements OnInit {
         console.log('Final result:', result);
       });
   }
+
+  runMapDemo(): void {
+    this.mapResults = [];
+    this.mapLogs = [];
+    this.demoMapOperator();
+  }
+
+  runFilterDemo(): void {
+    this.filterResults = [];
+    this.filterLogs = [];
+    this.demoFilterOperator();
+  }
+
+  runCombinedDemo(): void {
+    this.combineResults = [];
+    this.combinedLogs = [];
+    this.demoCombinedOperators();
+  }
+
   runDemoAgain(): void {
     this.mapResults = [];
     this.filterResults = [];
