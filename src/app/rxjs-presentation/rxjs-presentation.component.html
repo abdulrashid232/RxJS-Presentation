@@ -6,22 +6,18 @@
 
   <div class="slide-container">
     <div class="slide">
-      <!-- Phase and goal information if available -->
       <div class="slide-phase" *ngIf="currentSlide.phase">{{ currentSlide.phase }}</div>
       <div class="slide-goal" *ngIf="currentSlide.goal">Goal: {{ currentSlide.goal }}</div>
       
       <h2 class="slide-title">{{ currentSlide.title }}</h2>
       
       <div class="slide-content">
-        <!-- Content points -->
         <ul *ngIf="currentSlide.content">
           <li *ngFor="let point of currentSlide.content">{{ point }}</li>
         </ul>
         
-        <!-- Code example if available and showCodeExample is true -->
         <pre *ngIf="currentSlide.code && (!currentSlide.demoComponent || currentSlide.showCodeExample)" class="code-block"><code>{{ currentSlide.code }}</code></pre>
         
-        <!-- Demo components based on slide configuration -->
         <div class="demo-container" *ngIf="currentSlide.demoComponent">
           <app-basic-operators-demo *ngIf="currentSlide.demoComponent === 'basic-operators-demo'"></app-basic-operators-demo>
           <app-search-input-demo *ngIf="currentSlide.demoComponent === 'search-input-demo'"></app-search-input-demo>
