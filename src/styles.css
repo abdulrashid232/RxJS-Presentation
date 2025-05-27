@@ -1,5 +1,17 @@
-/* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
+
+:root {
+    /* Primary Colors */
+    --color-primary-orange: #FF5A00;
+    --color-primary-dark-blue: #08283B;
+
+    /* Secondary Colors */
+    --color-secondary-light-blue: #5DAFF6;
+    --color-secondary-royal-blue: #040DBF;
+    --color-secondary-yellow: #FEBE00;
+    --color-secondary-dark-gray: #3E3D3A;
+    --color-secondary-light-gray: #909090;
+}
 
 * {
     margin: 0;
@@ -16,7 +28,7 @@ body {
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #1e1e2e;
-    color: #cdd6f4;
+    background-color: var(--color-primary-dark-blue);
+    color: var(--color-secondary-light-gray);
     line-height: 1.6;
 }
