@@ -85,8 +85,8 @@
       <h4>Key Code Snippet:</h4>
       <pre class="code-block">
         searchTerms.pipe(
-        debounceTime(400),      // Wait for 400ms of inactivity
-        distinctUntilChanged()  // Only emit when value changes
+        debounceTime(400),   
+        distinctUntilChanged() 
         ).subscribe(term =&gt; {{ '{' }}
         // Process search with optimized input
         {{ '}' }});
